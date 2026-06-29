@@ -15,11 +15,6 @@ jobs:
         image: qdrant/qdrant
         ports:
           - 6333:6333
-        options: >-
-          --health-cmd "curl -f http://localhost:6333/readiness || exit 1"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 10
 
     steps:
       - uses: actions/checkout@v4
@@ -31,6 +26,17 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Wait for Qdrant to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:6333/readiness; then
+              echo "Qdrant is ready"
+              break
+            fi
+            echo "Waiting for Qdrant... ($i)"
+            sleep 2
+          done
 
       - name: Ingest corpus into Qdrant
         run: |
@@ -62,11 +68,6 @@ jobs:
         image: qdrant/qdrant
         ports:
           - 6333:6333
-        options: >-
-          --health-cmd "curl -f http://localhost:6333/readiness || exit 1"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 10
 
     steps:
       - uses: actions/checkout@v4
@@ -78,6 +79,17 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Wait for Qdrant to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:6333/readiness; then
+              echo "Qdrant is ready"
+              break
+            fi
+            echo "Waiting for Qdrant... ($i)"
+            sleep 2
+          done
 
       - name: Re-ingest corpus into Qdrant
         run: |
