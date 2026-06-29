@@ -27,6 +27,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Cache embeddings
+        id: cache-embeddings
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/chunks.json
+            data/chunks_text.json
+            data/embeddings.npy
+          key: embeddings-${{ hashFiles('data/*.pdf', 'ingest/ingest.py', 'ingest/embed.py') }}
+
       - name: Wait for Qdrant to be ready
         run: |
           for i in {1..30}; do
@@ -38,11 +48,16 @@ jobs:
             sleep 2
           done
 
-      - name: Ingest corpus into Qdrant
-        run: |
-          python ingest/ingest.py
-          python ingest/embed.py
-          python ingest/qdrant_ingest.py
+      - name: Parse + chunk PDFs (skipped if cached)
+        if: steps.cache-embeddings.outputs.cache-hit != 'true'
+        run: python ingest/ingest.py
+
+      - name: Generate embeddings (skipped if cached)
+        if: steps.cache-embeddings.outputs.cache-hit != 'true'
+        run: python ingest/embed.py
+
+      - name: Upload to Qdrant
+        run: python ingest/qdrant_ingest.py
         env:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
@@ -80,6 +95,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Cache embeddings
+        id: cache-embeddings
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/chunks.json
+            data/chunks_text.json
+            data/embeddings.npy
+          key: embeddings-${{ hashFiles('data/*.pdf', 'ingest/ingest.py', 'ingest/embed.py') }}
+
       - name: Wait for Qdrant to be ready
         run: |
           for i in {1..30}; do
@@ -91,11 +116,16 @@ jobs:
             sleep 2
           done
 
-      - name: Re-ingest corpus into Qdrant
-        run: |
-          python ingest/ingest.py
-          python ingest/embed.py
-          python ingest/qdrant_ingest.py
+      - name: Parse + chunk PDFs (skipped if cached)
+        if: steps.cache-embeddings.outputs.cache-hit != 'true'
+        run: python ingest/ingest.py
+
+      - name: Generate embeddings (skipped if cached)
+        if: steps.cache-embeddings.outputs.cache-hit != 'true'
+        run: python ingest/embed.py
+
+      - name: Upload to Qdrant
+        run: python ingest/qdrant_ingest.py
         env:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
