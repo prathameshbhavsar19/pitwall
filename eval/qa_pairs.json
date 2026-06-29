@@ -1,0 +1,82 @@
+[
+  {
+    "question": "What happens if a car is released in an unsafe condition during qualifying?",
+    "ground_truth": "The stewards may drop the driver a number of grid positions as they consider appropriate. Such penalty will be applied to the race unless the infringement was committed during the sprint shootout, in which case the penalty applies to the sprint session."
+  },
+  {
+    "question": "What is the maximum number of power units a manufacturer can supply?",
+    "ground_truth": "Each power unit manufacturer may not directly or indirectly supply power units for more than T+1 teams, where T is defined in the relevant article."
+  },
+  {
+    "question": "What must competitors provide to clearly establish when a car was released from a pit stop?",
+    "ground_truth": "Competitors must provide a means of clearly establishing, when being viewed from both above and in the front of the car, when a car was released."
+  },
+  {
+    "question": "What penalty is imposed if a driver continues to drive knowing the car was released in an unsafe condition?",
+    "ground_truth": "An additional penalty will be imposed on any driver who, in the opinion of the stewards, continues to drive a car knowing it to have been released in an unsafe condition."
+  },
+  {
+    "question": "Under what circumstances can the Race Director close the pit entry?",
+    "ground_truth": "In exceptional circumstances the Race Director may ask for the pit entry to be closed during the sprint session or the race for safety reasons."
+  },
+  {
+    "question": "What is required of the isolation monitoring system for high voltage cars?",
+    "ground_truth": "A system to allow detection of insulation faults or damaged high voltage lines by an isolation monitoring system is required."
+  },
+  {
+    "question": "What actions must be taken when dangerous conditions are detected in the electrical system?",
+    "ground_truth": "In the event of detection of any dangerous conditions, actions must be immediately taken to ensure safe operation. The list of actions must be pre-defined in a Failure Mode and Effect Analysis provided to the FIA by each competitor."
+  },
+  {
+    "question": "What is the software debounce limit allowed to avoid spurious detections?",
+    "ground_truth": "A software debounce of maximum one second may be used to avoid spurious detections."
+  },
+  {
+    "question": "What penalty applies if a driver enters a closed pit lane for a non-essential reason?",
+    "ground_truth": "A penalty in accordance with Article 54.3d will be imposed on any driver who, in the opinion of the stewards, entered the pit lane for any other reason whilst it was closed."
+  },
+  {
+    "question": "What are the conditions for a component to be considered available on normal commercial terms?",
+    "ground_truth": "A component is available on normal commercial terms if it is available on a non-exclusive basis, is not supplied to a specification tighter than listed standards with a primary aim of improving baseline mechanical properties, and has no restrictions preventing the supplier from openly marketing it."
+  },
+  {
+    "question": "What fine may be imposed if a driver retires due to an unsafe release?",
+    "ground_truth": "If the driver retires from the sprint session or the race as a result of the car being released in an unsafe condition, a fine may be imposed upon the Competitor."
+  },
+  {
+    "question": "What written notice process applies when a Power Unit Manufacturer breaches supply obligations?",
+    "ground_truth": "The New Customer Team may send the Power Unit Manufacturer a written notice of the breach with a copy to the FIA and the Commercial Rights Holder. If unresolved within thirty days, the New Customer Team may suspend payment of fees."
+  },
+  {
+    "question": "What restrictions apply to public statements between teams and power unit manufacturers?",
+    "ground_truth": "The New Customer Team and the Power Unit Manufacturer shall not make any deceptive, misleading, disparaging or negative comments which directly injure, damage or bring into disrepute the public reputation, goodwill or image of the other party."
+  },
+  {
+    "question": "What are the permitted actions when a driver enters a closed pit lane?",
+    "ground_truth": "Drivers may only enter the pit lane in order for essential and entirely evident repairs to be carried out to the car when the pit entry is closed."
+  },
+  {
+    "question": "What is the penalty for an unsafe release during a sprint session or race?",
+    "ground_truth": "A penalty in accordance with Article 54.3d will be imposed on the driver concerned if a car is deemed to have been released in an unsafe condition during a sprint session or a race."
+  },
+  {
+    "question": "What specifications are permissible beyond the standard listed in Section 15.3?",
+    "ground_truth": "Additional specifications concerned with process control and quality control are permissible beyond the standards listed in Section 15.3."
+  },
+  {
+    "question": "What is the maximum software debounce time permitted for electrical fault detection systems?",
+    "ground_truth": "The maximum software debounce permitted is one second."
+  },
+  {
+    "question": "When does the grid position penalty for unsafe release apply to the sprint rather than the race?",
+    "ground_truth": "The grid position penalty applies to the sprint session when the infringement was committed during the sprint shootout, rather than being applied to the race."
+  },
+  {
+    "question": "What document must competitors provide to the FIA regarding electrical safety actions?",
+    "ground_truth": "Competitors must provide a Failure Mode and Effect Analysis to the FIA that pre-defines the actions to be taken when dangerous electrical conditions are detected."
+  },
+  {
+    "question": "What are the DRS activation zone rules for the Australian Grand Prix?",
+    "ground_truth": "DRS activation zones are determined by the Race Director on a per-circuit basis and are not defined in the FIA Technical or Sporting Regulations. This information is not available in the indexed documents."
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "strategy": "fixed",
+    "model": "all-MiniLM-L6-v2",
+    "chunks": 1863,
+    "avg_top1": 0.5845,
+    "time_s": 4.9
+  },
+  {
+    "strategy": "sentence",
+    "model": "all-MiniLM-L6-v2",
+    "chunks": 1081,
+    "avg_top1": 0.5701,
+    "time_s": 3.8
+  },
+  {
+    "strategy": "paragraph",
+    "model": "all-MiniLM-L6-v2",
+    "chunks": 6,
+    "avg_top1": 0.3528,
+    "time_s": 0.4
+  },
+  {
+    "strategy": "fixed",
+    "model": "bge-large-en-v1.5",
+    "chunks": 1863,
+    "avg_top1": 0.7179,
+    "time_s": 60.7
+  },
+  {
+    "strategy": "sentence",
+    "model": "bge-large-en-v1.5",
+    "chunks": 1081,
+    "avg_top1": 0.7242,
+    "time_s": 51.8
+  },
+  {
+    "strategy": "paragraph",
+    "model": "bge-large-en-v1.5",
+    "chunks": 6,
+    "avg_top1": 0.5938,
+    "time_s": 1.3
+  }
+]

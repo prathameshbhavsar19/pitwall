@@ -1,0 +1,12 @@
+{
+  "context_precision": 0.8417,
+  "faithfulness": 0.8667,
+  "answer_relevancy": 0.7482,
+  "num_questions": 20,
+  "top_k": 3,
+  "model": "BAAI/bge-large-en-v1.5",
+  "retrieval": "hybrid-rrf",
+  "generation": "gpt-4o (Azure)",
+  "judge_model": "gpt-4o-mini (Azure)",
+  "embed_model": "BAAI/bge-large-en-v1.5 (local)"
+}
