@@ -128,21 +128,33 @@ def query(request: Request, body: QueryRequest):
     # --- Langfuse tracing ------------------------------------------------
     if LANGFUSE_ENABLED:
         try:
-            with langfuse.start_as_current_observation(name="pitwall-query"):
-                langfuse.update_current_span(
+            with langfuse.start_as_current_observation(
+                as_type="generation",
+                name="pitwall-query",
+                model="gpt-4o",
+            ):
+                langfuse.update_current_generation(
                     input={
                         "query":    body.query,
                         "doc_type": body.doc_type,
                         "top_k":    body.top_k,
                     },
                     output={
-                        "generated_answer": gen["answer"]       if gen else None,
+                        "generated_answer": gen["answer"] if gen else None,
                         "num_results":      len(results),
                         "latency_ms":       latency_ms,
-                        "top_score":        results[0].score    if results else None,
-                        "tokens_used":      gen["total_tokens"] if gen else None,
-                        "cost_usd":         gen["cost_usd"]     if gen else None,
+                        "top_score":        results[0].score if results else None,
                     },
+                    usage_details={
+                        "input":  gen["prompt_tokens"]     if gen else 0,
+                        "output": gen["completion_tokens"] if gen else 0,
+                        "total":  gen["total_tokens"]      if gen else 0,
+                    } if gen else None,
+                    cost_details={
+                        "input":  round(gen["cost_usd"] * gen["prompt_tokens"] / gen["total_tokens"], 6),
+                        "output": round(gen["cost_usd"] * gen["completion_tokens"] / gen["total_tokens"], 6),
+                        "total":  gen["cost_usd"],
+                    } if gen else None,
                 )
             langfuse.flush()
         except Exception:
