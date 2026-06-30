@@ -128,7 +128,7 @@ results = evaluate(
     metrics=[context_precision, faithfulness, answer_relevancy],
     run_config=RunConfig(
         timeout=120,        # give each judge call more time
-        max_workers=2,      # reduce concurrency to avoid rate limits
+        max_workers=4,      # reduce concurrency to avoid rate limits
     ),
 )
 
