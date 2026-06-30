@@ -20,6 +20,8 @@ import os
 import time
 import requests
 from dotenv import load_dotenv
+from ragas.run_config import RunConfig
+
 
 load_dotenv()
 
@@ -124,6 +126,10 @@ print("Running RAGAS evaluation (LLM via Azure, embeddings local)...")
 results = evaluate(
     dataset=dataset,
     metrics=[context_precision, faithfulness, answer_relevancy],
+    run_config=RunConfig(
+        timeout=120,        # give each judge call more time
+        max_workers=2,      # reduce concurrency to avoid rate limits
+    ),
 )
 
 # ── Step 4: Print results ─────────────────────────────────────────────────────
