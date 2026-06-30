@@ -95,6 +95,24 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install ragas vertexai fallback dependency
+        run: pip install langchain-google-vertexai
+
+      - name: Patch ragas broken import
+        run: |
+          python -c "
+          import site
+          path = site.getsitepackages()[0] + '/ragas/llms/base.py'
+          with open(path, 'r') as f:
+              content = f.read()
+          content = content.replace(
+              'from langchain_community.chat_models.vertexai import ChatVertexAI',
+              'try:\n    from langchain_community.chat_models.vertexai import ChatVertexAI\nexcept ImportError:\n    from langchain_google_vertexai import ChatVertexAI'
+          )
+          with open(path, 'w') as f:
+              f.write(content)
+          "
+
       - name: Cache embeddings
         id: cache-embeddings
         uses: actions/cache@v4
