@@ -40,7 +40,7 @@ jobs:
       - name: Wait for Qdrant to be ready
         run: |
           for i in {1..30}; do
-            if curl -sf http://localhost:6333/readiness; then
+            if curl -sf http://localhost:6333/collections; then
               echo "Qdrant is ready"
               break
             fi
@@ -95,6 +95,24 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install ragas vertexai fallback dependency
+        run: pip install langchain-google-vertexai
+
+      - name: Patch ragas broken import
+        run: |
+          python -c "
+          import site
+          path = site.getsitepackages()[0] + '/ragas/llms/base.py'
+          with open(path, 'r') as f:
+              content = f.read()
+          content = content.replace(
+              'from langchain_community.chat_models.vertexai import ChatVertexAI',
+              'try:\n    from langchain_community.chat_models.vertexai import ChatVertexAI\nexcept ImportError:\n    from langchain_google_vertexai import ChatVertexAI'
+          )
+          with open(path, 'w') as f:
+              f.write(content)
+          "
+
       - name: Cache embeddings
         id: cache-embeddings
         uses: actions/cache@v4
@@ -108,7 +126,7 @@ jobs:
       - name: Wait for Qdrant to be ready
         run: |
           for i in {1..30}; do
-            if curl -sf http://localhost:6333/readiness; then
+            if curl -sf http://localhost:6333/collections; then
               echo "Qdrant is ready"
               break
             fi
@@ -133,9 +151,17 @@ jobs:
 
       - name: Start API server
         run: |
-          python -m uvicorn api.main:app --host 0.0.0.0 --port 8000 &
-          sleep 10
-          curl -f http://localhost:8000/health
+          python -m uvicorn api.main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
+          for i in {1..30}; do
+            if curl -sf http://localhost:8000/health; then
+              echo "API is ready"
+              break
+            fi
+            echo "Waiting for API... ($i)"
+            sleep 2
+          done
+          echo "----- uvicorn.log -----"
+          cat uvicorn.log
         env:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
