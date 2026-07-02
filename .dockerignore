@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.git/
+.github/
+data/embeddings.npy
+data/archive/
+data/*.pdf
+ingest/
+eval/
+dashboard/
+locustfile.py
+tests/
+*.md

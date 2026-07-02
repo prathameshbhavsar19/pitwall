@@ -2,6 +2,10 @@
 # Takes your existing chunks + embeddings and loads them into Qdrant
 # Replaces the flat .npy file with a proper indexed vector database
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 import numpy as np
@@ -10,10 +14,11 @@ import json
 # ── CONFIG ────────────────────────────────────────────────
 COLLECTION_NAME = "pitwall"
 EMBEDDING_DIM   = 1024          # bge-large outputs 1024-dim vectors
-QDRANT_URL      = "http://localhost:6333"
+QDRANT_URL      = os.getenv("QDRANT_URL", "http://localhost:6333")
+QDRANT_API_KEY  = os.getenv("QDRANT_API_KEY", None)
 
-EMBEDDINGS_PATH    = "data/embeddings.npy"
-CHUNKS_PATH        = "data/chunks.json"
+EMBEDDINGS_PATH = "data/embeddings.npy"
+CHUNKS_PATH     = "data/chunks.json"
 # ──────────────────────────────────────────────────────────
 
 
@@ -113,7 +118,12 @@ def ingest(client: QdrantClient, embeddings: np.ndarray, chunks: list[dict]):
 
 
 if __name__ == "__main__":
-    client = QdrantClient(url=QDRANT_URL)
+    # Connect to Qdrant Cloud if API key is set, otherwise local
+    if QDRANT_API_KEY:
+        client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+    else:
+        client = QdrantClient(url=QDRANT_URL)
+
     print(f"🔌 Connected to Qdrant at {QDRANT_URL}")
 
     # Delete collection if it already exists (clean re-run)
@@ -131,4 +141,4 @@ if __name__ == "__main__":
     print(f"\n📊 Collection info:")
     print(f"   Vectors count: {info.points_count}")
     print(f"   Status: {info.status}")
-    print(f"\n🌐 View in dashboard: http://localhost:6333/dashboard")
+    print(f"\n🌐 View in dashboard: {QDRANT_URL}/dashboard")

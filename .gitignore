@@ -1,6 +1,6 @@
 # Environment — never commit API keys
 .env
-.env.*
+.env
 
 # Virtual environment
 venv/

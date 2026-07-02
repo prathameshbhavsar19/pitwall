@@ -29,14 +29,26 @@ COST_PER_1K_INPUT  = 0.0025   # Azure GPT-4o pricing
 COST_PER_1K_OUTPUT = 0.010
 
 # ── Qdrant + embedding config ─────────────────────────────────────────
-QDRANT_HOST      = "localhost"
-QDRANT_PORT      = 6333
+QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
+QDRANT_PORT = int(os.getenv("QDRANT_PORT", "6333"))
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", None)
 COLLECTION_NAME  = "pitwall"
 EMBED_MODEL_NAME = "BAAI/bge-large-en-v1.5"
 RRF_K            = 60
 
 # Loaded once at module import — avoids reloading per request
-_client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
+if QDRANT_API_KEY:
+    # Qdrant Cloud — URL-based connection
+    _client = QdrantClient(
+        url=f"https://{QDRANT_HOST}",
+        api_key=QDRANT_API_KEY,
+    )
+else:
+    # Local Qdrant — host:port connection
+    _client = QdrantClient(
+        host=QDRANT_HOST,
+        port=QDRANT_PORT,
+    )
 _model  = SentenceTransformer(EMBED_MODEL_NAME)
 
 
